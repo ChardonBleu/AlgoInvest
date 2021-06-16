@@ -27,7 +27,7 @@ if __name__ == '__main__':
     glouton_client_wallet = glouton(actions)
     value_glouton_client_wallet = wallet.value_wallet(glouton_client_wallet)
     income_glouton_client_wallet = wallet.income_wallet(glouton_client_wallet)
-    action_func.view_actions(glouton_client_wallet)
+    wallet.view_wallet(glouton_client_wallet)
     print("Valeur du portefeuille du client: ",
           str(value_glouton_client_wallet), " euros")    
     print("bénéfices du client à 2 ans: ", 
@@ -35,4 +35,3 @@ if __name__ == '__main__':
     print()
     print("******************************************************")
     print()
-    
