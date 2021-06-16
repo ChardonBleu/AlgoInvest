@@ -15,11 +15,14 @@ def rentability_calculation(actions):
         action['rentability'] = income(action) / cost(action)
 
 def rentability(action):
-    return action['rentability']
+    return round(action['rentability'],2)
 
 def view_actions(actions):
+    print()
+    print(f"action      coût(€)   bénéfice(%)   rentablilité")
     for action in actions:
-        print(f"{name(action)} {")
+        print(f"{name(action):10} {cost(action):>6}€   {income(action):>10}%\
+  {rentability(action):>13}")
     print()
 
 def value_wallet(client_wallet):
@@ -53,8 +56,9 @@ if __name__ == '__main__':
     
     actions = TWENTY_ACTIONS
     rentability_calculation(actions)    
-    actions = sort_actions(actions, rentability, True)  
-
+    actions = sort_actions(actions, rentability, True)
+    
+    print()
     print("*****************Algorithme glouton******************")
     glouton_client_wallet = glouton(actions)
     value_glouton_client_wallet = value_wallet(glouton_client_wallet)
@@ -65,4 +69,5 @@ if __name__ == '__main__':
     print("bénéfices du client à 2 ans: ", 
           str(income_glouton_client_wallet), " euros")
     print("******************************************************")
+    print()
     
