@@ -1,7 +1,9 @@
 from constant import MAX_CLIENT_WALLET
 import market
-
 import wallet
+import action_func
+
+import time
 
 
 def tree(actions):
@@ -36,9 +38,9 @@ def tree(actions):
 if __name__ == '__main__':
     
     actions = market.TWENTY_ACTIONS
-
+    tps1 = time.time()
     print()
-    print("*****************Force brute******************")
+    print("***************** Force brute ******************")
     print()
     brute_client_wallet = tree(actions)
     value_brute_client_wallet = wallet.value_wallet(brute_client_wallet)
@@ -48,9 +50,11 @@ if __name__ == '__main__':
           str(value_brute_client_wallet), " euros")    
     print("bénéfices du client à 2 ans: ", 
           str(income_brute_client_wallet), " euros")
+    tps2 = time.time()
     print()
-    print("******************************************************")
+    print("***************** ", round(tps2 - tps1, 2), " s ******************")
     print()
+    
 
     
 
