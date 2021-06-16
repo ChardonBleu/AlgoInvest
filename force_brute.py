@@ -1,7 +1,7 @@
 from constant import MAX_CLIENT_WALLET
 import market
 import wallet
-import action_func
+import action
 
 import time
 
@@ -54,7 +54,3 @@ if __name__ == '__main__':
     print()
     print("***************** ", round(tps2 - tps1, 2), " s ******************")
     print()
-    
-
-    
-

@@ -23,3 +23,4 @@ FOOR_ACTIONS = [{'name': 'action_1', 'cost': 20, 'income': 5},
                   {'name': 'action_2', 'cost': 30, 'income': 10},
                   {'name': 'action_3', 'cost': 50, 'income': 15},
                   {'name': 'action_4', 'cost': 70, 'income': 20}]
+

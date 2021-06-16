@@ -1,18 +1,42 @@
-import action_func
+from constant import MAX_CLIENT_WALLET
 
-def value_wallet(client_wallet):
-    value = 0
-    for action in client_wallet:
-        value += action_func.cost(action)
-    return value
+class Wallet:
+    
+    def __init__(self):
 
-def income_wallet(client_wallet):
-    income_w = 0
-    for action in client_wallet:
-        income_w += action_func.income(action) * action_func.cost(action) / 100        
-    return round(income_w,2)
+        self.value = 0
+        self.income = 0
+        self.wallet_actions = []
 
-def view_wallet(actions):
-    print(f"action      coût(€)   bénéfice(%)   rentablilité")
-    for action in actions:
-        print(f"{action_func.name(action):10} {action_func.cost(action):>6}€   {action_func.income(action):>10}%")
+    def __str__(self):
+        return f"value wallet: {self.value}€ - profit wallet: {round(self.income, 2)}€"
+
+    @property
+    def actions(self):
+        return self.wallet_actions
+
+    def update_value_wallet(self):
+        for action in self.actions:
+            self.value += action.cost
+        return self.value
+
+    def update_income_wallet(self):
+        for action in self.actions:
+            self.income += action.income * action.cost / 100        
+        return round(self.income,2)
+
+    def view_wallet(self):
+        print(f"action      coût(€)   bénéfice(%)")
+        for action in self.actions:
+            print(action)
+        print()
+        
+
+    def sort_actions_by_cost(self, reverse_order=False):
+        self.wallet_actions = sorted(self.wallet_actions, key=lambda action: action.cost, reverse=reverse_order)
+
+    
+    def sort_actions_by_rentability(self, reverse_order=False):
+        self.wallet_actions = sorted(self.wallet_actions, key=lambda x: x.rentability_action, reverse=reverse_order)
+
+    
