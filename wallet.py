@@ -10,25 +10,28 @@ class Wallet:
 
     def __str__(self):
         return f"value wallet: {self.value}€ - profit wallet: {round(self.income, 2)}€"
+            
 
     @property
     def actions(self):
         return self.wallet_actions
 
     def update_value_wallet(self):
-        for action in self.actions:
+        for action in self.wallet_actions:
             self.value += action.cost
         return self.value
 
     def update_income_wallet(self):
-        for action in self.actions:
+        for action in self.wallet_actions:
             self.income += action.income * action.cost / 100        
         return round(self.income,2)
 
     def view_wallet(self):
         print(f"action      coût(€)   bénéfice(%)")
-        for action in self.actions:
+        for action in self.wallet_actions:
             print(action)
+        print()
+        print(self)
         print()
         
 

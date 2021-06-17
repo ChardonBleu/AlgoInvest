@@ -1,55 +1,64 @@
 from constant import MAX_CLIENT_WALLET
-import market
-import wallet
-import action
+from market import TWENTY_ACTIONS
+
+from wallet import Wallet
+from action import Action
 
 import time
+import copy
 
 
-def tree(actions):
+def wallet_force_brute(market):
     """Méthode construisant un arbre binaire avec toutes les combinaisons
     possibles pour des portefeuilles ayant une valeur inférieure à la valeur*
     d'investissement MAX_CLIENT_WALLET
 
     Arguments:
-        actions {dict} -- dictionnaire des actions du marché financier
+        actions {objet Wallet} -- contient la liste des objets Actions du 
+                                  marché financier
         
     Return:
-        list -- liste contenant des sets 
+        objet wallet -- Objet contenant la liste des actions donnant le
+                        meilleur profit 
     """
-    branch = []
+    
+    branch = Wallet()
     tree = [branch]  # contient liste de wallets possibles
     best_income = 0
-    best_wallet = []
-    for action in actions:
+    best_wallet = Wallet()
+    for action in market.actions:
         for index in range(len(tree)):
-            new_branch = tree[index].copy()
-            new_branch.append(action)
-            if wallet.value_wallet(new_branch) <= MAX_CLIENT_WALLET:
+            new_branch = None
+            new_branch = copy.deepcopy(tree[index])
+            new_branch.actions.append(action)
+            new_branch.income = 0
+            new_branch.value = 0
+            new_branch.update_value_wallet()
+            new_branch.update_income_wallet()
+            if new_branch.value <= MAX_CLIENT_WALLET:
                 tree.append(new_branch)
-                if wallet.income_wallet(new_branch) > best_income:
-                    best_income = wallet.income_wallet(new_branch)
-                    best_wallet.clear()
-                    best_wallet = new_branch
-        
+                if new_branch.income > best_income:
+                    best_income = new_branch.income
+                    best_wallet = None
+                    best_wallet = copy.deepcopy(new_branch)
     return best_wallet
 
 
 if __name__ == '__main__':
     
-    actions = market.TWENTY_ACTIONS
+    current_market = Wallet()
+    for action in TWENTY_ACTIONS:
+        current_market.actions.append(Action(action['name'], action['cost'], action['income']))
+    
+    
+    print()
+    print("*****************Algorithme force brute******************")
+    print()
     tps1 = time.time()
-    print()
-    print("***************** Force brute ******************")
-    print()
-    brute_client_wallet = tree(actions)
-    value_brute_client_wallet = wallet.value_wallet(brute_client_wallet)
-    income_brute_client_wallet = wallet.income_wallet(brute_client_wallet)
-    wallet.view_wallet(brute_client_wallet)
-    print("Valeur du portefeuille du client: ",
-          str(value_brute_client_wallet), " euros")    
-    print("bénéfices du client à 2 ans: ", 
-          str(income_brute_client_wallet), " euros")
+    
+    force_brute_client_wallet = wallet_force_brute(current_market)
+    force_brute_client_wallet.view_wallet()
+    
     tps2 = time.time()
     print()
     print("***************** ", round(tps2 - tps1, 2), " s ******************")
