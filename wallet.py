@@ -1,6 +1,8 @@
-from constant import MAX_CLIENT_WALLET
-
 class Wallet:
+    """Classe modélisant un portefeuille d'actions.
+    
+    
+    """
     
     def __init__(self):
 
