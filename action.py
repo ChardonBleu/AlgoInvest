@@ -1,7 +1,7 @@
 class Action:
     """Classe modélisant une action du marché fincancier
     """
-    
+
     def __init__(self, name, cost, income):
         """A l'instanciation de l'action on passe en arguments le nom, le prix
         et le bénéfice  à 2 ans en pourcentage.
@@ -35,4 +35,4 @@ class Action:
         Returns:
             [float] -- valeur arrondie au centième de self.rentability_action
         """
-        return round(self.rentability_action,2)
+        return round(self.rentability_action, 2)
