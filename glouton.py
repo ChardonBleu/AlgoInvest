@@ -8,6 +8,18 @@ import time
 
 
 def glouton_wallet(market):
+    """Fonction permettant d'obtenir le portefeuille d'actions le plus rentable
+    en utilisant l'algorithme glouton:
+    On trie les actions par rentabilité décroissante. On choisi succesivement chaque action dans l'ordre jusqu'à ne
+    plus pouvoir investir.
+
+    Arguments:
+        market {objet Wallet} -- portefeuille correspondant à toutes les
+                                 actions du marché
+
+    Returns:
+        [objet Wallet] -- portefeuille "glouton" le plus rentable
+    """
     client_wallet = Wallet()
     market.sort_actions_by_rentability(True)
     for action in market.actions:

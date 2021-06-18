@@ -5,18 +5,29 @@ from action import Action
 from wallet import Wallet
 
 import time
-from copy import deepcopy, copy
 
 
 class BinaryTree:
+    """Classe modélisant l'arbre binaire de toutes les combinaisons possibles
+    avec les N actions du marché financier étudié
+    On explore toutes les combinaisons. On mémorise dans l'arbre seulement les
+    combinaisons ayant une valeur infèrieure ou égale à la valeur maximale à 
+    investir.
+    """
     
     def __init__(self, branch):
+        """Une branche de l'arbre binaire correspond à un portefeuille possible
+        en terme d'investissement. L'arbre est une liste de portefeuilles.
+
+        Arguments:
+            branch {objet Wallet} -- portefeuille possible
+        """
         self.tree = [branch]
         
 
     def wallet_force_brute(self, market):
         """Méthode construisant un arbre binaire avec toutes les combinaisons
-        possibles pour des portefeuilles ayant une valeur inférieure à la valeur*
+        possibles pour des portefeuilles ayant une valeur inférieure à la valeur
         d'investissement MAX_CLIENT_WALLET
 
         Arguments:
@@ -26,15 +37,14 @@ class BinaryTree:
         Return:
             objet wallet -- Objet contenant la liste des actions donnant le
                             meilleur profit 
-        """
-    
+        """    
         best_income = 0
         best_wallet = Wallet()
         for action in market.actions:
             for index in range(len(self.tree)):
                 new_branch = Wallet()                
-                new_branch.wallet_actions = self.tree[index].wallet_actions.copy()
-                new_branch.wallet_actions.append(action)            
+                new_branch.actions = self.tree[index].actions.copy()
+                new_branch.actions.append(action)            
                 new_branch.update_value_wallet()
                 new_branch.update_income_wallet()
                 if new_branch.value <= MAX_CLIENT_WALLET:
@@ -52,11 +62,7 @@ if __name__ == '__main__':
     current_market = Wallet()
     for action in TWENTY_ACTIONS:
         current_market.actions.append(Action(action['name'], action['cost'], action['income']))
-    # current_market.update_income_wallet()
-    # current_market.update_value_wallet()
-    # current_market.view_wallet()
-    
-    
+
     print()
     print("*****************Algorithme force brute******************")
     print()
