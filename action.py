@@ -14,9 +14,9 @@ class Action:
             income {int} -- bénéfice à 2 ans en pourcentage du pris de l'action
         """
         self.name = name
-        self.cost = cost
-        self.income = income
-        self.rentability_action = self.income / self.cost
+        self.price = cost
+        self.profit = income
+        self.rentability_action = self.profit / self.price
 
     def __str__(self):
         """Permet l'affichage formaté sur une ligne des caractéristiques d'une
@@ -25,7 +25,7 @@ class Action:
         Returns:
             [string] -- "nom       prix(€)      bénéfice(%)"
         """
-        return f"{self.name:10} {self.cost:>6}€   {self.income:>10}%"
+        return f"{self.name:10} {self.price:>6}€   {self.profit:>10}%"
 
     @property
     def rentability(self):

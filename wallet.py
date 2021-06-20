@@ -16,7 +16,7 @@ class Wallet:
         Returns:
             [string] -- valeur(€) et gain(€) à 2 ans du portefeuille
         """
-        return f"value wallet: {self.value}€ -\
+        return f"value wallet: {round(self.value, 2)}€ -\
 profit wallet: {round(self.income, 2)}€"
 
     def update_value_wallet(self):
@@ -26,8 +26,8 @@ profit wallet: {round(self.income, 2)}€"
             [int] -- valeur du portefeuille (€)
         """
         for action in self.actions:
-            self.value += action.cost
-        return self.value
+            self.value += action.price
+        return round(self.value, 2)
 
     def update_income_wallet(self):
         """Met à jour le gain à deux ans du portefeuille
@@ -36,7 +36,7 @@ profit wallet: {round(self.income, 2)}€"
             [int] -- gain du portefeuille (€)
         """
         for action in self.actions:
-            self.income += action.income * action.cost / 100
+            self.income += action.profit * action.price / 100
         return round(self.income, 2)
 
     def sort_actions_by_rentability(self, reverse_order=False):

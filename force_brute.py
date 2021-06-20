@@ -24,7 +24,7 @@ class BinaryTree:
         """
         self.tree = [branch]
 
-    def wallet_force_brute(self, market):
+    def search_wallet_force_brute(self, market):
         """Méthode construisant un arbre binaire avec toutes les combinaisons
         possibles pour des portefeuilles ayant une valeur inférieure à la
         valeur d'investissement MAX_CLIENT_WALLET
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     tps1 = time.time()
 
     binary_tree = BinaryTree(Wallet())
-    force_brute_client_wallet = binary_tree.wallet_force_brute(current_market)
+    force_brute_client_wallet = binary_tree.search_wallet_force_brute(current_market)
     force_brute_client_wallet.view_wallet()
 
     tps2 = time.time()
