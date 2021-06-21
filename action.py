@@ -16,7 +16,7 @@ class Action:
         self.name = name
         self.price = price
         self.profit = profit
-        self.income = price * profit / 100
+        self.income = round(price * profit / 100, 2)
         self.rentability_action = self.profit / self.price
 
     def __str__(self):
