@@ -35,11 +35,3 @@ def convert_csv_in_dict(fichier_csv):
         for row in reader:
             Dict_actions.append(row)
     return Dict_actions
-
-
-
-if __name__ == "__main__":
-    
-    THOUSAND_ACTIONS_1 = convert_csv_in_dict('dataset1.csv')    
-    print(THOUSAND_ACTIONS_1)
-    

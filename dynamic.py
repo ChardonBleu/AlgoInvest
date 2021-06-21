@@ -14,37 +14,66 @@ class DynamicArray:
     def __init__(self, max_invest):
         """Une branche de l'arbre binaire correspond à un portefeuille possible
         en terme d'investissement. L'arbre est une liste de portefeuilles.
-
+        Le tableau contient autant de lignes que d'actions dans le marché.
+        Le tableau contient autant de colonnes que d'entiers entre 0 et la
+        somme maximale à investir. Les prix des actions du marché étant donnés
+        au centième prés on multipliera par 100 ces prix pour les rendre
+        entiers et on multiplie par 100 également la sommme disponible pour les
+        achants.
+        
         Arguments:
-            branch {objet Wallet} -- portefeuille possible
+            max_invest{int} -- somme maximale à investir
         """
-        self.array = [[0 for i in range(max_invest + 1)]]     
+        self.array = [[0 for i in range(max_invest * 100 + 1)]]
 
+    def build_dynamic_array(self, market, max_invest):
+        """Fonction permettant d'obtenir le portefeuille d'actions le plus rentable
+        en utilisant l'algorithme dynamique:
+        On construit pas à pas un tableau des choix les plus rentables à partir de
+        la solution la plus rentable déjà trouvée.
+        
+        Arguments:
+
+        """
+        for index_action in range(1, len(market.actions) + 1):
+            self.array.append([0])
+            for invest in range(1, max_invest * 100 + 1):
+                if invest < market.actions[index_action - 1].price:
+                    self.array[index_action].append(self.array[index_action - 1][invest])
+                else:
+                    self.array[index_action].append(max(self.array[index_action - 1][invest],
+                                                          (self.array[index_action - 1][invest - market.actions[index_action - 1].price]) + market.actions[index_action - 1].income))
+        return round((self.array[len(market.actions)][max_invest * 100]) / 100, 2)
+        
+    
     def search_dynamic_wallet(self,market):
         """Fonction permettant d'obtenir le portefeuille d'actions le plus rentable
         en utilisant l'algorithme dynamique:
         On construit pas à pas un tableau des choix les plus rentables à partir de
-        la solution la plus rentable déjà trouvée.     
+        la solution la plus rentable déjà trouvée.
+        
+        Arguments:
+
         """
         client_wallet = Wallet()
+
         
         # Penser à rediviser par 100 les prix et gain avant de donner les résultats
-        
+
 
 
 if __name__ == '__main__':
 
-    # market.FOOR_ACTIONS
-    # market.TWENTY_ACTIONS
+    TWENTY_ACTIONS = market.TWENTY_ACTIONS
     THOUSAND_ACTIONS_1 = market.convert_csv_in_dict('dataset1.csv')   
     THOUSAND_ACTIONS_2 = market.convert_csv_in_dict('dataset2.csv')    
 
     current_market = Wallet()
-    for action in market.TWENTY_ACTIONS:
-        if float(action['price']) != 0.00:
+    for action in THOUSAND_ACTIONS_2:
+        if abs(int(float(action['price'])) * 100) != 0:
             current_market.actions.append(Action(action['name'],
-                                             abs(float(action['price'])) * 100,
-                                             float(action['profit']) * 100))
+                                             abs(int(float(action['price'])) * 100),
+                                             float(action['profit'])))
         else:
             continue
 
@@ -54,10 +83,11 @@ if __name__ == '__main__':
     tps1 = time.time()
 
     dynamic_array = DynamicArray(MAX_CLIENT_WALLET)
-    # dynamic_client_wallet = dynamic_array.search_dynamic_wallet(current_market)
-    # dynamic_client_wallet.view_wallet()
+    dynamic_client_array = dynamic_array.build_dynamic_array(current_market, MAX_CLIENT_WALLET)
     
-    print(dynamic_array.array)
+    print(dynamic_client_array)
+    
+
 
     tps2 = time.time()
     print()

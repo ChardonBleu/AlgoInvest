@@ -2,7 +2,7 @@ class Action:
     """Classe modélisant une action du marché fincancier
     """
 
-    def __init__(self, name, cost, income):
+    def __init__(self, name, price, profit):
         """A l'instanciation de l'action on passe en arguments le nom, le prix
         et le bénéfice  à 2 ans en pourcentage.
         Attribute:
@@ -14,8 +14,9 @@ class Action:
             income {int} -- bénéfice à 2 ans en pourcentage du pris de l'action
         """
         self.name = name
-        self.price = cost
-        self.profit = income
+        self.price = price
+        self.profit = profit
+        self.income = price * profit / 100
         self.rentability_action = self.profit / self.price
 
     def __str__(self):
