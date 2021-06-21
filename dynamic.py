@@ -8,8 +8,7 @@ import time
 
 
 class DynamicArray:
-    """Classe modélisant un tableau dynamique 
-    """
+    """Classe modélisant un tableau dynamique"""
 
     def __init__(self, max_invest):
         """Une branche de l'arbre binaire correspond à un portefeuille possible
@@ -20,7 +19,7 @@ class DynamicArray:
         au centième prés on multipliera par 100 ces prix pour les rendre
         entiers et on multiplie par 100 également la sommme disponible pour les
         achants.
-        
+
         Arguments:
             max_invest{int} -- somme maximale à investir
         """
@@ -31,7 +30,7 @@ class DynamicArray:
         en utilisant l'algorithme dynamique:
         On construit pas à pas un tableau des choix les plus rentables à partir de
         la solution la plus rentable déjà trouvée.
-        
+
         Arguments:
 
         """
@@ -39,41 +38,68 @@ class DynamicArray:
             self.array.append([0])
             for invest in range(1, max_invest * 100 + 1):
                 if invest < market.actions[index_action - 1].price:
-                    self.array[index_action].append(self.array[index_action - 1][invest])
+                    self.array[index_action].append(
+                        self.array[index_action - 1][invest]
+                    )
                 else:
-                    self.array[index_action].append(max(self.array[index_action - 1][invest],
-                                                          (self.array[index_action - 1][invest - market.actions[index_action - 1].price]) + market.actions[index_action - 1].income))
-        return round((self.array[len(market.actions)][max_invest * 100]) / 100, 2)
-        
-    
-    def search_dynamic_wallet(self,market):
+                    self.array[index_action].append(
+                        max(
+                            self.array[index_action - 1][invest],
+                            (
+                                self.array[index_action - 1][
+                                    invest - market.actions[index_action - 1].price
+                                ]
+                            )
+                            + market.actions[index_action - 1].income,
+                        )
+                    )
+        print(self.array[len(market.actions)][max_invest * 100])
+        return self
+
+    def search_dynamic_wallet(self, market, max_invest):
         """Fonction permettant d'obtenir le portefeuille d'actions le plus rentable
         en utilisant l'algorithme dynamique:
         On construit pas à pas un tableau des choix les plus rentables à partir de
         la solution la plus rentable déjà trouvée.
-        
+
         Arguments:
 
         """
         client_wallet = Wallet()
+        income = self.array[len(market.actions)][max_invest * 100]
+        value = max_invest * 100
 
-        
-        # Penser à rediviser par 100 les prix et gain avant de donner les résultats
+        for index_action in range(len(market.actions), 0, -1):
+            print("action: ", (market.actions[index_action - 1])
+            if (market.actions[index_action - 1].price <= value) and (income - market.actions[index_action - 1].income == self.array[index_action][value - market.actions[index_action - 1].price]):
+                client_wallet.actions.append(market.actions[index_action - 1])
+                value -= market.actions[index_action - 1].price
+                income -= market.actions[index_action - 1].income
+            else:
+                pass
+        for action in client_wallet.actions:
+            action.price /= 100
+        client_wallet.update_income_wallet()
+        client_wallet.update_value_wallet()
+        return client_wallet
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     TWENTY_ACTIONS = market.TWENTY_ACTIONS
-    THOUSAND_ACTIONS_1 = market.convert_csv_in_dict('dataset1.csv')   
-    THOUSAND_ACTIONS_2 = market.convert_csv_in_dict('dataset2.csv')    
+    THOUSAND_ACTIONS_1 = market.convert_csv_in_dict("dataset1.csv")
+    THOUSAND_ACTIONS_2 = market.convert_csv_in_dict("dataset2.csv")
 
     current_market = Wallet()
-    for action in THOUSAND_ACTIONS_2:
-        if abs(int(float(action['price'])) * 100) != 0:
-            current_market.actions.append(Action(action['name'],
-                                             abs(int(float(action['price'])) * 100),
-                                             float(action['profit'])))
+    for action in TWENTY_ACTIONS:
+        if float(action["price"]) > 0.0:
+            current_market.actions.append(
+                Action(
+                    action["name"],
+                    (int(float(action["price"]) * 100) ),
+                    float(action["profit"]),
+                )
+            )
         else:
             continue
 
@@ -83,11 +109,13 @@ if __name__ == '__main__':
     tps1 = time.time()
 
     dynamic_array = DynamicArray(MAX_CLIENT_WALLET)
-    dynamic_client_array = dynamic_array.build_dynamic_array(current_market, MAX_CLIENT_WALLET)
-    
-    print(dynamic_client_array)
-    
-
+    dynamic_client_array = dynamic_array.build_dynamic_array(
+        current_market, MAX_CLIENT_WALLET
+    )
+    dynamic_client_wallet = dynamic_client_array.search_dynamic_wallet(
+        current_market, MAX_CLIENT_WALLET
+    )
+    dynamic_client_wallet.view_wallet()
 
     tps2 = time.time()
     print()

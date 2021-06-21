@@ -33,13 +33,12 @@ def search_glouton_wallet(market):
 
 if __name__ == '__main__':
 
-    # market.FOOR_ACTIONS
-    # market.TWENTY_ACTIONS
+    TWENTY_ACTIONS = market.TWENTY_ACTIONS
     THOUSAND_ACTIONS_1 = market.convert_csv_in_dict('dataset1.csv')   
     THOUSAND_ACTIONS_2 = market.convert_csv_in_dict('dataset2.csv')    
 
     current_market = Wallet()
-    for action in market.TWENTY_ACTIONS:
+    for action in THOUSAND_ACTIONS_2:
         if float(action['price']) != 0.00:
             current_market.actions.append(Action(action['name'],
                                              abs(float(action['price'])),

@@ -56,13 +56,13 @@ class BinaryTree:
         return best_wallet
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     current_market = Wallet()
     for action in TWENTY_ACTIONS:
-        current_market.actions.append(Action(action['name'],
-                                             action['price'],
-                                             action['profit']))
+        current_market.actions.append(
+            Action(action["name"], action["price"], action["profit"])
+        )
 
     print()
     print("*****************Algorithme force brute******************")
