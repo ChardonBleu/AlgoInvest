@@ -54,7 +54,7 @@ profit wallet: {round(self.income, 2)}€"
     def view_wallet(self):
         """Permet l'affichage de la liste des actions du portefeuille
         """
-        print("action      coût(€)   bénéfice(%)")
+        print("action      coût(€)   bénéfice(%)   gain à 2 ans(€)")
         for action in self.actions:
             print(action)
         print()

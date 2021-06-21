@@ -24,9 +24,9 @@ class Action:
         action
 
         Returns:
-            [string] -- "nom       prix(€)      bénéfice(%)"
+            [string] -- "nom       prix(€)      bénéfice(%)      gain à 2 ans(€)"
         """
-        return f"{self.name:10} {self.price:>6}€   {self.profit:>10}%"
+        return f"{self.name:10} {self.price:>6}€   {self.profit:>10}%   {self.income:>10}€"
 
     @property
     def rentability(self):

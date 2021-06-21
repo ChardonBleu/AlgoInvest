@@ -50,13 +50,13 @@ class DynamicArray:
                                     invest - market.actions[index_action - 1].price
                                 ]
                             )
-                            + market.actions[index_action - 1].income,
+                            + market.actions[index_action - 1].income
                         )
                     )
         print(self.array[len(market.actions)][max_invest * 100])
-        return self
+        return self.array
 
-    def search_dynamic_wallet(self, market, max_invest):
+    def search_dynamic_wallet(self, array, market, max_invest):
         """Fonction permettant d'obtenir le portefeuille d'actions le plus rentable
         en utilisant l'algorithme dynamique:
         On construit pas à pas un tableau des choix les plus rentables à partir de
@@ -66,22 +66,31 @@ class DynamicArray:
 
         """
         client_wallet = Wallet()
-        income = self.array[len(market.actions)][max_invest * 100]
-        value = max_invest * 100
+        n = len(market.actions)
+        v = array[len(market.actions)][max_invest]
+        w = max_invest
 
-        for index_action in range(len(market.actions), 0, -1):
-            print("action: ", (market.actions[index_action - 1])
-            if (market.actions[index_action - 1].price <= value) and (income - market.actions[index_action - 1].income == self.array[index_action][value - market.actions[index_action - 1].price]):
-                client_wallet.actions.append(market.actions[index_action - 1])
-                value -= market.actions[index_action - 1].price
-                income -= market.actions[index_action - 1].income
-            else:
-                pass
-        for action in client_wallet.actions:
-            action.price /= 100
+        for j in range(len(market.actions) - 1, -1, -1):
+            print("v: ", v)
+            print("w: ", w)
+            wj = market.actions[j].price
+            vj = market.actions[j].income
+            print("wj: ", wj)
+            print("vj: ", vj)
+            if (wj <= w) and (v - vj == array[j][w - wj]):
+                client_wallet.actions.append(market.actions[j])
+                v -= vj
+                w -= wj
+            client_wallet.view_wallet()            
+            input("...")
         client_wallet.update_income_wallet()
         client_wallet.update_value_wallet()
+        client_wallet.view_wallet()            
+        input("...")
         return client_wallet
+
+
+            
 
 
 if __name__ == "__main__":
@@ -96,7 +105,7 @@ if __name__ == "__main__":
             current_market.actions.append(
                 Action(
                     action["name"],
-                    (int(float(action["price"]) * 100) ),
+                    (int(float(action["price"])) ),
                     float(action["profit"]),
                 )
             )
@@ -108,14 +117,18 @@ if __name__ == "__main__":
     print()
     tps1 = time.time()
 
+    current_market.view_wallet()
+    
     dynamic_array = DynamicArray(MAX_CLIENT_WALLET)
     dynamic_client_array = dynamic_array.build_dynamic_array(
         current_market, MAX_CLIENT_WALLET
     )
-    dynamic_client_wallet = dynamic_client_array.search_dynamic_wallet(
+    
+    
+    dynamic_client_wallet = dynamic_array.search_dynamic_wallet(dynamic_client_array,
         current_market, MAX_CLIENT_WALLET
     )
-    dynamic_client_wallet.view_wallet()
+    """dynamic_client_wallet.view_wallet()"""
 
     tps2 = time.time()
     print()
