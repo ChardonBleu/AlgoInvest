@@ -1,6 +1,7 @@
 from constant import MAX_CLIENT_WALLET
 from market import TWENTY_ACTIONS
 
+
 from action import Action
 from wallet import Wallet
 
@@ -59,7 +60,7 @@ class BinaryTree:
 if __name__ == "__main__":
 
     current_market = Wallet()
-    for action in TWENTY_ACTIONS:  # remplacer la CONSTANTE par le lot d'actions voulu
+    for action in TWENTY_ACTIONS:
         current_market.actions.append(
             Action(action["name"], action["price"], action["profit"])
         )

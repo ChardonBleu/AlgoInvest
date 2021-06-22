@@ -36,9 +36,26 @@ if __name__ == "__main__":
     TWENTY_ACTIONS = market.TWENTY_ACTIONS
     THOUSAND_ACTIONS_1 = market.convert_csv_in_dict("dataset1.csv")
     THOUSAND_ACTIONS_2 = market.convert_csv_in_dict("dataset2.csv")
+        
+    print("choisir le panel d'actions à tester:" )
+    print("1: TWENTY_ACTIONS, 2: dataset1, 3: dataset2")
+    bool = True
+    while bool:
+        choice = input(">> ")
+        if choice == '1':
+            CHOICE = TWENTY_ACTIONS
+            bool = False
+        elif choice == '2':
+            CHOICE = THOUSAND_ACTIONS_1
+            bool = False
+        elif choice == '3':
+            CHOICE = THOUSAND_ACTIONS_2
+            bool = False
+        else:
+            continue
 
     current_market = Wallet()
-    for action in THOUSAND_ACTIONS_2:  # remplacer la CONSTANTE par le lot d'actions voulu
+    for action in CHOICE:  # remplacer la CONSTANTE par le lot d'actions voulu
         if float(action["price"]) != 0.00:
             current_market.actions.append(
                 Action(
