@@ -24,7 +24,8 @@ class DynamicArray:
         Arguments:
             max_invest{int} -- somme maximale à investir
         """
-        self.array = [[0 for i in range(max_invest * 100 + 1)]]
+        self.array = [[0 for column_invest in range(max_invest * 100 + 1)]
+                      for i in range(2)]
 
     def build_dynamic_array(self, market, max_invest):
         """Fonction permettant d'obtenir le portefeuille d'actions le plus rentable
@@ -36,52 +37,42 @@ class DynamicArray:
         Arguments:
 
         """
-        for index_action in range(1, len(market.actions) + 1):
-            self.array.append([0])
-            for invest in range(1, max_invest * 100 + 1):
-                if invest < market.actions[index_action - 1].price:
-                    self.array[index_action].append(
-                        self.array[index_action - 1][invest]
-                    )
-                else:
-                    self.array[index_action].append(
-                        max(
-                            self.array[index_action - 1][invest],
+        index_action = 0
+        while index_action < len(market.actions):
+            column_invest = 0
+            if index_action % 2 == 0:
+                while column_invest < max_invest * 100:
+                    column_invest += 1
+                    if market.actions[index_action].price <= column_invest:
+                        self.array[1][column_invest] = max(
+                            self.array[0][column_invest],
                             (
-                                self.array[index_action - 1][
-                                    invest - market.actions[index_action - 1].price
-                                ]
+                                self.array[0][
+                                    column_invest - market.actions[index_action].price]
                             )
-                            + int(market.actions[index_action - 1].income * 100),
+                            + int(market.actions[index_action].income * 100),
                         )
-                    )
-
-    def search_dynamic_wallet(self, market, max_invest):
-        """Fonction permettant d'obtenir le portefeuille d'actions le plus rentable
-        en utilisant l'algorithme dynamique:
-        On construit pas à pas un tableau des choix les plus rentables à partir de
-        la solution la plus rentable déjà trouvée.
-
-        Arguments:
-
-        """
-        client_wallet = Wallet()
-        income = self.array[len(market.actions)][max_invest * 100]
-        value = max_invest * 100
-        for j in range(len(market.actions) - 1, -1, -1):
-            if (market.actions[j].price <= value) and (
-                income - int(market.actions[j].income * 100)
-                == self.array[j][value - market.actions[j].price]
-            ):
-                client_wallet.actions.append(market.actions[j])
-                income -= int(market.actions[j].income * 100)
-                value -= market.actions[j].price
-        for action in client_wallet.actions:
-            action.price /= 100
-            action.income = round(action.income / 100, 2)            
-        client_wallet.update_income_wallet()
-        client_wallet.update_value_wallet()
-        return client_wallet
+                    else:
+                        self.array[1][column_invest] = self.array[0][column_invest]
+            else:
+                while column_invest < max_invest * 100:
+                    column_invest += 1
+                    if market.actions[index_action].price <= column_invest:
+                            self.array[0][column_invest] = max(
+                            self.array[1][column_invest],
+                            (
+                                self.array[1][
+                                    column_invest - market.actions[index_action].price]
+                            )
+                            + int(market.actions[index_action].income * 100),
+                        )
+                    else:
+                        self.array[0][column_invest] = self.array[1][column_invest]
+            index_action += 1
+        if len(market.actions) % 2 == 0:
+            return self.array[0][max_invest * 100]
+        else:
+            return self.array[1][max_invest * 100]
 
 
 if __name__ == "__main__":
@@ -112,16 +103,11 @@ if __name__ == "__main__":
     
     tps1 = time.time()
     
-    dynamic_array.build_dynamic_array(current_market, MAX_CLIENT_WALLET)
+    best_income = dynamic_array.build_dynamic_array(current_market, MAX_CLIENT_WALLET)
+    print("profit wallet: ", round(best_income/10000, 2), " €")
     
     tps2 = time.time()
     
-    dynamic_client_wallet = dynamic_array.search_dynamic_wallet(
-        current_market, MAX_CLIENT_WALLET
-    )
-    
-    dynamic_client_wallet.view_wallet()
-
     print()
     print("***************** ", round(tps2 - tps1, 2), " s ******************")
     print()
