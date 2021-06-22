@@ -67,6 +67,7 @@ class DynamicArray:
         client_wallet = Wallet()
         income = self.array[len(market.actions)][max_invest * 100]
         value = max_invest * 100
+
         for j in range(len(market.actions) - 1, -1, -1):
             if (market.actions[j].price <= value) and (
                 income - int(market.actions[j].income * 100)
@@ -75,6 +76,7 @@ class DynamicArray:
                 client_wallet.actions.append(market.actions[j])
                 income -= int(market.actions[j].income * 100)
                 value -= market.actions[j].price
+
         for action in client_wallet.actions:
             action.price /= 100
             action.income = round(action.income / 100, 2)
@@ -96,12 +98,15 @@ if __name__ == "__main__":
         choice = input(">> ")
         if choice == '1':
             CHOICE = TWENTY_ACTIONS
+            title = "panel de 20 actions"
             bool = False
         elif choice == '2':
             CHOICE = THOUSAND_ACTIONS_1
+            title = "dataset1"
             bool = False
         elif choice == '3':
             CHOICE = THOUSAND_ACTIONS_2
+            title = "dataset2"
             bool = False
         else:
             continue
@@ -122,6 +127,7 @@ if __name__ == "__main__":
 
     print()
     print("*****************Algorithme dynamique******************")
+    print(title, ":")
     print()
 
     dynamic_array = DynamicArray(MAX_CLIENT_WALLET)

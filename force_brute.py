@@ -67,6 +67,7 @@ if __name__ == "__main__":
 
     print()
     print("*****************Algorithme force brute******************")
+    print("panel de 20 actions:")
     print()
     tps1 = time.time()
 

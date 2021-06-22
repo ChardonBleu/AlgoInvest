@@ -44,18 +44,21 @@ if __name__ == "__main__":
         choice = input(">> ")
         if choice == '1':
             CHOICE = TWENTY_ACTIONS
+            title = "panel de 20 actions"
             bool = False
         elif choice == '2':
             CHOICE = THOUSAND_ACTIONS_1
+            title = "dataset1"
             bool = False
         elif choice == '3':
             CHOICE = THOUSAND_ACTIONS_2
+            title = "dataset2"
             bool = False
         else:
             continue
 
     current_market = Wallet()
-    for action in CHOICE:  # remplacer la CONSTANTE par le lot d'actions voulu
+    for action in CHOICE:
         if float(action["price"]) != 0.00:
             current_market.actions.append(
                 Action(
@@ -67,6 +70,7 @@ if __name__ == "__main__":
 
     print()
     print("*****************Algorithme glouton******************")
+    print(title, ":")
     print()
     tps1 = time.time()
 
