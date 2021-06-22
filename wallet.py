@@ -1,10 +1,9 @@
 class Wallet:
-    """Classe modélisant un portefeuille d'actions.
-    """
+    """Classe modélisant un portefeuille d'actions."""
 
     def __init__(self):
-        """A l'instanciation on crée un portefeuille vide d'actions.
-        """
+        """A l'instanciation on crée un portefeuille vide d'actions."""
+
         self.value = 0
         self.income = 0
         self.actions = []
@@ -16,7 +15,7 @@ class Wallet:
         Returns:
             [string] -- valeur(€) et gain(€) à 2 ans du portefeuille
         """
-        return f"value wallet: {round(self.value, 2)}€ -\
+        return f"value wallet: {round(self.value, 2)}€ - \
 profit wallet: {round(self.income, 2)}€"
 
     def update_value_wallet(self):
@@ -47,14 +46,13 @@ profit wallet: {round(self.income, 2)}€"
             reverse_order {bool} -- sens du tri. Par défaut décroissant
                                     (default: {False})
         """
-        self.actions = sorted(self.actions,
-                              key=lambda action: action.rentability,
-                              reverse=reverse_order)
+        self.actions = sorted(
+            self.actions, key=lambda action: action.rentability, reverse=reverse_order
+        )
 
     def view_wallet(self):
-        """Permet l'affichage de la liste des actions du portefeuille
-        """
-        print("action      coût(€)   bénéfice(%)   gain à 2 ans(€)")
+        """Permet l'affichage de la liste des actions du portefeuille"""
+        print("action      coût(€)   bénéfice(%)")
         for action in self.actions:
             print(action)
         print()

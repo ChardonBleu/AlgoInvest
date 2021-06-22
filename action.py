@@ -1,6 +1,5 @@
 class Action:
-    """Classe modélisant une action du marché fincancier
-    """
+    """Classe modélisant une action du marché fincancier"""
 
     def __init__(self, name, price, profit):
         """A l'instanciation de l'action on passe en arguments le nom, le prix
@@ -16,7 +15,7 @@ class Action:
         self.name = name
         self.price = price
         self.profit = profit
-        self.income = round(price * profit / 100, 2)
+        self.income = price * profit / 100
         self.rentability_action = self.profit / self.price
 
     def __str__(self):
@@ -24,9 +23,11 @@ class Action:
         action
 
         Returns:
-            [string] -- "nom       prix(€)      bénéfice(%)      gain à 2 ans(€)"
+            [string] -- "nom       prix(€)      bénéfice(%)"
         """
-        return f"{self.name:10} {self.price:>6}€   {self.profit:>10}%   {self.income:>10}€"
+        return (
+            f"{self.name:10} {self.price:>6}€   {self.profit:>10}%"
+        )
 
     @property
     def rentability(self):
