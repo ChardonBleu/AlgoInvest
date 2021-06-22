@@ -38,7 +38,7 @@ if __name__ == "__main__":
     THOUSAND_ACTIONS_2 = market.convert_csv_in_dict("dataset2.csv")
 
     current_market = Wallet()
-    for action in THOUSAND_ACTIONS_2:
+    for action in THOUSAND_ACTIONS_2:  # remplacer la CONSTANTE par le lot d'actions voulu
         if float(action["price"]) != 0.00:
             current_market.actions.append(
                 Action(

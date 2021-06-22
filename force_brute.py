@@ -59,7 +59,7 @@ class BinaryTree:
 if __name__ == "__main__":
 
     current_market = Wallet()
-    for action in TWENTY_ACTIONS:
+    for action in TWENTY_ACTIONS:  # remplacer la CONSTANTE par le lot d'actions voulu
         current_market.actions.append(
             Action(action["name"], action["price"], action["profit"])
         )

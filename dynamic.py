@@ -5,7 +5,6 @@ from action import Action
 from wallet import Wallet
 
 import time
-import timeit
 
 
 class DynamicArray:
@@ -78,7 +77,7 @@ class DynamicArray:
                 value -= market.actions[j].price
         for action in client_wallet.actions:
             action.price /= 100
-            action.income = round(action.income / 100, 2)            
+            action.income = round(action.income / 100, 2)
         client_wallet.update_income_wallet()
         client_wallet.update_value_wallet()
         return client_wallet
@@ -91,7 +90,7 @@ if __name__ == "__main__":
     THOUSAND_ACTIONS_2 = market.convert_csv_in_dict("dataset2.csv")
 
     current_market = Wallet()
-    for action in THOUSAND_ACTIONS_1:
+    for action in THOUSAND_ACTIONS_1:  # remplacer la CONSTANTE par le lot d'actions voulu
         if float(action["price"]) > 0:
             current_market.actions.append(
                 Action(
@@ -109,17 +108,17 @@ if __name__ == "__main__":
     print()
 
     dynamic_array = DynamicArray(MAX_CLIENT_WALLET)
-    
+
     tps1 = time.time()
-    
+
     dynamic_array.build_dynamic_array(current_market, MAX_CLIENT_WALLET)
-    
+
     tps2 = time.time()
-    
+
     dynamic_client_wallet = dynamic_array.search_dynamic_wallet(
         current_market, MAX_CLIENT_WALLET
     )
-    
+
     dynamic_client_wallet.view_wallet()
 
     print()
