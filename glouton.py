@@ -36,8 +36,8 @@ if __name__ == "__main__":
     TWENTY_ACTIONS = market.TWENTY_ACTIONS
     THOUSAND_ACTIONS_1 = market.convert_csv_in_dict("dataset1.csv")
     THOUSAND_ACTIONS_2 = market.convert_csv_in_dict("dataset2.csv")
-        
-    print("choisir le panel d'actions à tester:" )
+
+    print("choisir le panel d'actions à tester:")
     print("1: TWENTY_ACTIONS, 2: dataset1, 3: dataset2")
     bool = True
     while bool:
