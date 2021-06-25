@@ -1,5 +1,4 @@
 from constant import MAX_CLIENT_WALLET
-import market
 
 from action import Action
 from wallet import Wallet
