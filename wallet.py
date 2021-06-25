@@ -28,6 +28,7 @@ profit wallet: {round(self.income, 2)}€"
         Returns:
             [int] -- valeur du portefeuille (€)
         """
+        self.value = 0
         for action in self.actions:
             self.value += action.price
         return round(self.value, 2)
@@ -38,6 +39,7 @@ profit wallet: {round(self.income, 2)}€"
         Returns:
             [int] -- gain du portefeuille (€)
         """
+        self.income = 0
         for action in self.actions:
             self.income += action.profit * action.price / 100
         return round(self.income, 2)
