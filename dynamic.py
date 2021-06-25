@@ -87,31 +87,9 @@ class DynamicArray:
 
 if __name__ == "__main__":
 
-    TWENTY_ACTIONS = market.TWENTY_ACTIONS
-    THOUSAND_ACTIONS_1 = market.convert_csv_in_dict("dataset1.csv")
-    THOUSAND_ACTIONS_2 = market.convert_csv_in_dict("dataset2.csv")
-
-    print("choisir le panel d'actions à tester:")
-    print("1: TWENTY_ACTIONS, 2: dataset1, 3: dataset2")
-    bool = True
-    while bool:
-        choice = input(">> ")
-        if choice == '1':
-            CHOICE = TWENTY_ACTIONS
-            title = "panel de 20 actions"
-            bool = False
-        elif choice == '2':
-            CHOICE = THOUSAND_ACTIONS_1
-            title = "dataset1"
-            bool = False
-        elif choice == '3':
-            CHOICE = THOUSAND_ACTIONS_2
-            title = "dataset2"
-            bool = False
-        else:
-            continue
-
     current_market = Wallet()
+    CHOICE, title_market = current_market.choice_market()
+    
     for action in CHOICE:
         if float(action["price"]) > 0:
             current_market.actions.append(
@@ -124,10 +102,12 @@ if __name__ == "__main__":
 
         else:
             continue
+        
+    # print(len(current_market.actions))
 
     print()
     print("*****************Algorithme dynamique******************")
-    print(title, ":")
+    print(title_market, ":")
     print()
 
     dynamic_array = DynamicArray(MAX_CLIENT_WALLET)
