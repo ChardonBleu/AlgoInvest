@@ -51,9 +51,7 @@ class BinaryTree:
                     self.tree.append(new_branch)
                     if new_branch.income > best_income:
                         best_income = new_branch.income
-                        del best_wallet
                         best_wallet = new_branch
-                del new_branch
         return best_wallet
 
 
