@@ -37,10 +37,10 @@ if __name__ == "__main__":
     CHOICE, title_market = current_market.choice_market()
 
     for action in CHOICE:
-            if float(action["price"]) != 0.00:
+            if float(action["price"]) > 0.00:
                 current_market.actions.append(
                     Action(
-                        action["name"], abs(float(action["price"])), float(action["profit"])
+                        action["name"], float(action["price"]), float(action["profit"])
                     )
                 )
             else:
